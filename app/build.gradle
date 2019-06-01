@@ -10,6 +10,12 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    def endpointProperties = new Properties()
+    file(endpointPropertiesPath).withInputStream { endpointProperties.load(it) }
+    def endpointFormatter = endpointProperties.getProperty("endpoint_formatter")
+    def endpointUsername = endpointProperties.getProperty("username")
+
     buildTypes {
         release {
             minifyEnabled true
