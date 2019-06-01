@@ -41,6 +41,8 @@ android {
             def south = regionProperties.getProperty("south")
             def east = regionProperties.getProperty("east")
             def west = regionProperties.getProperty("west")
+
+            buildConfigField "String", "END_POINT", "\"${String.format(endpointFormatter, north, south, east, west, endpointUsername)}\""
         }
     }
 }
