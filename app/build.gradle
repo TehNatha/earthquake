@@ -26,6 +26,14 @@ android {
             applicationIdSuffix ".debug"
         }
     }
+    
+    flavorDimensions "region"
+    productFlavors {
+        main {
+            dimension "region"
+            applicationIdSuffix ".main"
+            versionNameSuffix "-main"
+        }
     }
 }
 
