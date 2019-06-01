@@ -15,6 +15,14 @@ buildscript {
     }
 }
 
+ext {
+    relativeSecureFilePath = "secure"
+    secureFilePath = "$projectDir/$relativeSecureFilePath/"
+
+    endpointPropertiesFile = "endpoint.properties"
+    endpointPropertiesPath = "$secureFilePath/$endpointPropertiesFile"
+}
+
 allprojects {
     repositories {
         google()
