@@ -33,6 +33,14 @@ android {
             dimension "region"
             applicationIdSuffix ".main"
             versionNameSuffix "-main"
+
+            def regionProperties = new Properties()
+            file("$regionPropertiesPath/main.properties").withInputStream {regionProperties.load(it)}
+
+            def north = regionProperties.getProperty("north")
+            def south = regionProperties.getProperty("south")
+            def east = regionProperties.getProperty("east")
+            def west = regionProperties.getProperty("west")
         }
     }
 }
