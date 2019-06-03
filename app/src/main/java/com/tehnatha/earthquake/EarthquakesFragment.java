@@ -5,19 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.tehnatha.earthquake.databinding.FragmentEarthquakesBinding;
+
+import java.util.List;
 
 
 public class EarthquakesFragment extends Fragment {
+
+    private EarthquakesViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,13 +28,12 @@ public class EarthquakesFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        EarthquakeRepository repo = new EarthquakeRepository(getActivity().getApplication());
-        LiveData<List<Earthquake>> earthquakes = repo.getAllEarthQuakes();
-        FrameLayout frame = (FrameLayout) inflater.inflate(R.layout.fragment_earthquakes, container, false);
-        final TextView v = new TextView(getActivity());
-        frame.addView(v);
 
-        earthquakes.observe(this, new Observer<List<Earthquake>>() {
+        final FragmentEarthquakesBinding binding = FragmentEarthquakesBinding.inflate(inflater);
+
+        binding.setViewmodel(viewModel);
+
+        viewModel.getEarthquakes().observe(this, new Observer<List<Earthquake>>() {
             @Override
             public void onChanged(@Nullable List<Earthquake> earthquakes) {
                 StringBuilder builder = new StringBuilder();
@@ -40,16 +41,19 @@ public class EarthquakesFragment extends Fragment {
                 else
                     for (Earthquake quake : earthquakes)
                         builder.append(quake.getEqid()).append("\n");
-                v.setText(builder.toString());
+                binding.text.setText(builder.toString());
             }
         });
 
-        return frame;
+        return binding.frame;
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        viewModel = ViewModelProviders
+                .of(this, new EarthquakesViewModelFactory(getActivity().getApplication()))
+                .get(EarthquakesViewModel.class);
     }
 
     @Override
