@@ -40,7 +40,7 @@ public class EarthquakesFragment extends Fragment {
                 if (earthquakes == null) builder.append("failed");
                 else
                     for (Earthquake quake : earthquakes)
-                        builder.append(quake.getEqid()).append("\n");
+                        builder.append(quake.getLocation()).append("\n");
                 binding.text.setText(builder.toString());
             }
         });

@@ -15,6 +15,7 @@ public class Earthquake {
     private double depth;
     private double magnitude;
     private String src;
+    private String location;
 
     public String getEqid() {
         return eqid;
@@ -70,6 +71,14 @@ public class Earthquake {
 
     public void setSrc(String src) {
         this.src = src;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
 
