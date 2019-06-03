@@ -33,7 +33,6 @@ public class EarthquakesFragment extends Fragment {
 
         final FragmentEarthquakesBinding binding = FragmentEarthquakesBinding.inflate(inflater);
 
-
         binding.setViewmodel(viewModel);
         binding.recyclerView.setAdapter(adapter);
 
