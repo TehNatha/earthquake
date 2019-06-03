@@ -14,12 +14,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.tehnatha.earthquake.databinding.FragmentEarthquakesBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class EarthquakesFragment extends Fragment {
 
     private EarthquakesViewModel viewModel;
+    private EarthquakesRecyclerViewAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,21 +33,18 @@ public class EarthquakesFragment extends Fragment {
 
         final FragmentEarthquakesBinding binding = FragmentEarthquakesBinding.inflate(inflater);
 
+
         binding.setViewmodel(viewModel);
+        binding.recyclerView.setAdapter(adapter);
 
         viewModel.getEarthquakes().observe(this, new Observer<List<Earthquake>>() {
             @Override
             public void onChanged(@Nullable List<Earthquake> earthquakes) {
-                StringBuilder builder = new StringBuilder();
-                if (earthquakes == null) builder.append("failed");
-                else
-                    for (Earthquake quake : earthquakes)
-                        builder.append(quake.getLocation()).append("\n");
-                binding.text.setText(builder.toString());
+                adapter.setData(earthquakes);
             }
         });
 
-        return binding.frame;
+        return binding.earthquakesFragmentOuterFrame;
     }
 
     @Override
@@ -54,6 +53,7 @@ public class EarthquakesFragment extends Fragment {
         viewModel = ViewModelProviders
                 .of(this, new EarthquakesViewModelFactory(getActivity().getApplication()))
                 .get(EarthquakesViewModel.class);
+        adapter = new EarthquakesRecyclerViewAdapter(context, new ArrayList<Earthquake>());
     }
 
     @Override
