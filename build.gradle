@@ -22,6 +22,9 @@ ext {
     endpointPropertiesFile = "endpoint.properties"
     endpointPropertiesPath = "$secureFilePath/$endpointPropertiesFile"
 
+    keyPropertiesFile = "keys.properties"
+    keyPropertiesPath = "$secureFilePath/$keyPropertiesFile"
+
     regionPropertiesDir = "regions"
     regionPropertiesPath = "$projectDir/$regionPropertiesDir"
 }

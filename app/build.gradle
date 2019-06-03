@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    def endpointProperties = new Properties()
+    file(endpointPropertiesPath).withInputStream { endpointProperties.load(it) }
+    def endpointFormatter = endpointProperties.getProperty("endpoint_formatter")
+    def endpointUsername = endpointProperties.getProperty("username")
+
+    def keyProperties = new Properties()
+    file(keyPropertiesPath).withInputStream { keyProperties.load(it) }
+    def googleMapsKey = keyProperties.getProperty("google_maps")
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.tehnatha.earthquake"
@@ -9,12 +18,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
 
-    def endpointProperties = new Properties()
-    file(endpointPropertiesPath).withInputStream { endpointProperties.load(it) }
-    def endpointFormatter = endpointProperties.getProperty("endpoint_formatter")
-    def endpointUsername = endpointProperties.getProperty("username")
+        manifestPlaceholders = [mapApiKey: googleMapsKey]
+    }
 
     dataBinding {
         enabled = true
@@ -62,6 +68,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
 
     implementation "androidx.room:room-runtime:$room_version"
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
