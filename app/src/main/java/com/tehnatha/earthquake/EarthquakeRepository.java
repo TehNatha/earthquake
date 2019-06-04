@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 public class EarthquakeRepository {
     private static EarthquakeRepository INSTANCE;
@@ -37,8 +38,19 @@ public class EarthquakeRepository {
     }
 
     public LiveData<List<Earthquake>> getAllEarthQuakes() {
-        new FetchEarthQuakesAsyncTask(earthquakeDAO, geocoder).execute(earthquakeWebSource);
-        return earthquakeDAO.getAll();
+        LiveData<List<Earthquake>> earthquakes = earthquakeDAO.getAll();
+
+        final FetchEarthQuakesAsyncTask task = new FetchEarthQuakesAsyncTask(earthquakeDAO, geocoder);
+
+        earthquakes.observeForever(new Observer<List<Earthquake>>() {
+            @Override
+            public void onChanged(List<Earthquake> earthquakes) {
+                if (earthquakes == null || earthquakes.size() == 0)
+                    if (task.getStatus() != AsyncTask.Status.RUNNING)
+                        task.execute(earthquakeWebSource);
+            }
+        });
+        return earthquakes;
     }
 
     private static class FetchEarthQuakesAsyncTask extends AsyncTask<EarthquakeWebSource, Void, Void> {
