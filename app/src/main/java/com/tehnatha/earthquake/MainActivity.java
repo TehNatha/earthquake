@@ -1,6 +1,5 @@
 package com.tehnatha.earthquake;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openMap() {
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.mainView, new EarthquakeMapFragment(),"map").addToBackStack("Back to list").commit();
+        fm.beginTransaction().replace(R.id.mainView, new EarthquakesMapFragment(),"map").addToBackStack("Back to list").commit();
     }
 
 }
