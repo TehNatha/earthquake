@@ -21,20 +21,24 @@ import com.tehnatha.earthquake.viewmodels.ViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainViewModel viewModel;
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = ViewModelProviders
+        MainViewModel viewModel = ViewModelProviders
                 .of(this, new ViewModelFactory(getApplication()))
                 .get(MainViewModel.class);
-        final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         viewModel.getShowMessage().observe(this, getShowMessageObserver(binding));
 
         binding.setViewmodel(viewModel);
+
+        if (findViewById(R.id.earthquakesMapFragment) != null) {
+            twoPane = true;
+        }
     }
 
     @Override
@@ -57,8 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void openMap(final double lat, final double lng) {
         FragmentManager fm = getSupportFragmentManager();
-        SupportMapFragment fragment =  new EarthquakesMapFragment();
+        SupportMapFragment fragment;
 
+        if (twoPane) {
+            fragment = (SupportMapFragment) fm.findFragmentById(R.id.earthquakesMapFragment);
+        } else {
+            fragment = new EarthquakesMapFragment();
+            fm.beginTransaction()
+                    .replace(R.id.mainView, fragment, "map")
+                    .addToBackStack("Back to list")
+                    .commit();
+        }
+
+        assert fragment != null;
         fragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -67,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         });
-        
-        fm.beginTransaction()
-                .replace(R.id.mainView, fragment,"map")
-                .addToBackStack("Back to list")
-                .commit();
     }
 
 }
