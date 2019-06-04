@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tehnatha.earthquake.databinding.EarthquakeItemBinding;
 import com.tehnatha.earthquake.datamodel.Earthquake;
+import com.tehnatha.earthquake.viewmodels.EarthquakeListItemViewModel;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<EarthquakesRecyclerViewAdapter.EarthquakeHolder> {
@@ -23,6 +23,7 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
     public EarthquakesRecyclerViewAdapter(Context context, List<Earthquake> data) {
         this.inflater = LayoutInflater.from(context);
         this.data = data;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -43,6 +44,11 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
         return data.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return data.get(position).getEqid().hashCode();
+    }
+
     public void setData(List<Earthquake> data) {
         this.data = data;
         notifyDataSetChanged();
@@ -58,7 +64,7 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
         }
 
         public void bindData(final Earthquake data) {
-            binding.setModel(data);
+            binding.setViewmodel(new EarthquakeListItemViewModel(data));
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
