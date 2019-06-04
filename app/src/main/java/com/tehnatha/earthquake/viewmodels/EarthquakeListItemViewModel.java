@@ -1,26 +1,17 @@
 package com.tehnatha.earthquake.viewmodels;
 
-import android.graphics.Color;
-
-import androidx.lifecycle.LiveData;
-
-import com.tehnatha.earthquake.R;
 import com.tehnatha.earthquake.datamodel.Earthquake;
 
 public class EarthquakeListItemViewModel {
 
-    String title;
-    String subtitle;
-    int magnitudeColor;
+    private String title;
+    private String subtitle;
+    private double magnitude;
 
     public EarthquakeListItemViewModel(Earthquake earthquake) {
         title = earthquake.getLocation();
         subtitle = earthquake.getDatetime();
-
-        if (earthquake.getMagnitude() >= 8)
-            magnitudeColor = R.color.eightMagnitude;
-        else if (earthquake.getMagnitude() >= 7)
-            magnitudeColor = R.color.sevenMagnitude;
+        magnitude = earthquake.getMagnitude();
     }
 
     public String getTitle() {
@@ -31,7 +22,7 @@ public class EarthquakeListItemViewModel {
         return subtitle;
     }
 
-    public int getMagnitudeColor() {
-        return magnitudeColor;
+    public double getMagnitude() {
+        return magnitude;
     }
 }

@@ -30,7 +30,7 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
     @Override
     public EarthquakeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         EarthquakeItemBinding binding = EarthquakeItemBinding.inflate(inflater);
-        binding.earthquakeItemOuterFrame.setLayoutParams(parent.getLayoutParams());
+        binding.getRoot().setLayoutParams(parent.getLayoutParams());
         return new EarthquakeHolder(binding);
     }
 
