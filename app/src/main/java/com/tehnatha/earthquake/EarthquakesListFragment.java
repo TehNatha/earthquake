@@ -40,23 +40,9 @@ public class EarthquakesListFragment extends Fragment {
         binding.setViewmodel(viewModel);
         binding.recyclerView.setAdapter(adapter);
 
-        viewModel.getEarthquakes().observe(this, new Observer<List<Earthquake>>() {
-            @Override
-            public void onChanged(@Nullable List<Earthquake> earthquakes) {
-            if (earthquakes != null && earthquakes.size() > 0) {
-                adapter.setData(earthquakes);
-                binding.earthquakesListRefresh.setRefreshing(false);
-                binding.earthquakesListRefresh.setEnabled(false);
-            }
-            }
-        });
+        viewModel.getEarthquakes().observe(this, getEarthquakeObserver(binding, adapter));
 
-        binding.earthquakesListRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                viewModel.refresh();
-            }
-        });
+        binding.earthquakesListRefresh.setOnRefreshListener(getRefreshListener(viewModel));
 
         return binding.earthquakesFragmentOuterFrame;
     }
@@ -68,6 +54,28 @@ public class EarthquakesListFragment extends Fragment {
                 .of(this, new ViewModelFactory(getActivity().getApplication()))
                 .get(EarthquakesListViewModel.class);
         adapter = new EarthquakesRecyclerViewAdapter(context, new ArrayList<Earthquake>());
+    }
+
+    private static Observer<List<Earthquake>> getEarthquakeObserver(final FragmentEarthquakesBinding binding, final EarthquakesRecyclerViewAdapter adapter) {
+        return new Observer<List<Earthquake>>() {
+            @Override
+            public void onChanged(@Nullable List<Earthquake> earthquakes) {
+                if (earthquakes != null && earthquakes.size() > 0) {
+                    adapter.setData(earthquakes);
+                    binding.earthquakesListRefresh.setRefreshing(false);
+                    binding.earthquakesListRefresh.setEnabled(false);
+                }
+            }
+        };
+    }
+
+    private static SwipeRefreshLayout.OnRefreshListener getRefreshListener(final EarthquakesListViewModel viewModel) {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.refresh();
+            }
+        };
     }
 
     @Override

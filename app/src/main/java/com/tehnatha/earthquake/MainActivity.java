@@ -32,12 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 .get(MainViewModel.class);
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        viewModel.getShowMessage().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean showMessage) {
-                binding.message.setVisibility(showMessage ? View.VISIBLE : View.GONE);
-            }
-        });
+        viewModel.getShowMessage().observe(this, getShowMessageObserver(binding));
 
         binding.setViewmodel(viewModel);
     }
@@ -48,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
         double lat = intent.getDoubleExtra("lat", 0);
         double lng = intent.getDoubleExtra("lng", 0);
         openMap(lat, lng);
+
+    }
+
+    private static Observer<Boolean> getShowMessageObserver(final ActivityMainBinding binding) {
+        return new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean showMessage) {
+                binding.message.setVisibility(showMessage ? View.VISIBLE : View.GONE);
+            }
+        };
     }
 
     public void openMap(final double lat, final double lng) {
