@@ -10,13 +10,19 @@ import java.util.List;
 
 public class EarthquakesListViewModel extends ViewModel {
 
+    private final EarthquakeRepository earthquakeRepository;
     private LiveData<List<Earthquake>> earthquakes;
 
     public EarthquakesListViewModel(EarthquakeRepository earthquakeRepository) {
+        this.earthquakeRepository = earthquakeRepository;
         earthquakes = earthquakeRepository.getAllEarthQuakes();
     }
 
     public LiveData<List<Earthquake>> getEarthquakes() {
         return earthquakes;
+    }
+
+    public void refresh() {
+        earthquakeRepository.refresh();
     }
 }

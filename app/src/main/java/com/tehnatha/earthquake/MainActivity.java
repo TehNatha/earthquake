@@ -2,10 +2,12 @@ package com.tehnatha.earthquake;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,7 +16,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.tehnatha.earthquake.databinding.ActivityMainBinding;
-import com.tehnatha.earthquake.datamodel.Earthquake;
 import com.tehnatha.earthquake.viewmodels.MainViewModel;
 import com.tehnatha.earthquake.viewmodels.ViewModelFactory;
 
@@ -29,7 +30,15 @@ public class MainActivity extends AppCompatActivity {
         viewModel = ViewModelProviders
                 .of(this, new ViewModelFactory(getApplication()))
                 .get(MainViewModel.class);
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        viewModel.getShowMessage().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean showMessage) {
+                binding.message.setVisibility(showMessage ? View.VISIBLE : View.GONE);
+            }
+        });
+
         binding.setViewmodel(viewModel);
     }
 

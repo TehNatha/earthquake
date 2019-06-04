@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.tehnatha.earthquake.databinding.FragmentEarthquakesBinding;
 import com.tehnatha.earthquake.datamodel.Earthquake;
@@ -42,7 +43,18 @@ public class EarthquakesListFragment extends Fragment {
         viewModel.getEarthquakes().observe(this, new Observer<List<Earthquake>>() {
             @Override
             public void onChanged(@Nullable List<Earthquake> earthquakes) {
+            if (earthquakes != null && earthquakes.size() > 0) {
                 adapter.setData(earthquakes);
+                binding.earthquakesListRefresh.setRefreshing(false);
+                binding.earthquakesListRefresh.setEnabled(false);
+            }
+            }
+        });
+
+        binding.earthquakesListRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.refresh();
             }
         });
 

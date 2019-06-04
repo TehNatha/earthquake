@@ -38,19 +38,24 @@ public class EarthquakeRepository {
     }
 
     public LiveData<List<Earthquake>> getAllEarthQuakes() {
-        LiveData<List<Earthquake>> earthquakes = earthquakeDAO.getAll();
+        final LiveData<List<Earthquake>> earthquakesLiveData = earthquakeDAO.getAll();
 
         final FetchEarthQuakesAsyncTask task = new FetchEarthQuakesAsyncTask(earthquakeDAO, geocoder);
 
-        earthquakes.observeForever(new Observer<List<Earthquake>>() {
+        earthquakesLiveData.observeForever(new Observer<List<Earthquake>>() {
             @Override
             public void onChanged(List<Earthquake> earthquakes) {
                 if (earthquakes == null || earthquakes.size() == 0)
                     if (task.getStatus() != AsyncTask.Status.RUNNING)
                         task.execute(earthquakeWebSource);
+                earthquakesLiveData.removeObserver(this);
             }
         });
-        return earthquakes;
+        return earthquakesLiveData;
+    }
+
+    public void refresh() {
+        new FetchEarthQuakesAsyncTask(earthquakeDAO, geocoder).execute(earthquakeWebSource);
     }
 
     private static class FetchEarthQuakesAsyncTask extends AsyncTask<EarthquakeWebSource, Void, Void> {
@@ -67,7 +72,7 @@ public class EarthquakeRepository {
         protected Void doInBackground(EarthquakeWebSource... sources) {
             if (sources.length > 0) {
                 Earthquake[] earthquakes = sources[0].getAll();
-                if (earthquakes.length > 0) {
+                if (earthquakes != null && earthquakes.length > 0) {
                     for (Earthquake earthquake : earthquakes)
                         if (earthquake.getLocation() == null || earthquake.getLocation().isEmpty())
                             lookupAndSetEarthquakeLocation(geocoder, earthquake);
