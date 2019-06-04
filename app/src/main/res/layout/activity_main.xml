@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.tehnatha.earthquake.MainViewModel" />
+    </data>
+    <LinearLayout
     android:id="@+id/mainView"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:text="@{viewmodel.message}"
+        android:visibility="@{viewmodel.hasMessage ? View.GONE : View.VISIBLE}"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_dark"
+        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <fragment android:name="com.tehnatha.earthquake.EarthquakesListFragment"
         android:id="@+id/earthquakesFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_weight="1"
+        android:layout_height="0dp" />
+    </LinearLayout>
+</layout>

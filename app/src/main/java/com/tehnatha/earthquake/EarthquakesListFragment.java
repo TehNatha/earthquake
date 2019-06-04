@@ -50,7 +50,7 @@ public class EarthquakesListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = ViewModelProviders
-                .of(this, new EarthquakesViewModelFactory(getActivity().getApplication()))
+                .of(this, new ViewModelFactory(getActivity().getApplication()))
                 .get(EarthquakesListViewModel.class);
         adapter = new EarthquakesRecyclerViewAdapter(context, new ArrayList<Earthquake>());
     }

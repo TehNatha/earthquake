@@ -22,7 +22,7 @@ public class EarthquakesMapFragment extends SupportMapFragment {
         super.onAttach(context);
 
         viewModel = ViewModelProviders
-                .of(this, new EarthquakesViewModelFactory(getActivity().getApplication()))
+                .of(this, new ViewModelFactory(getActivity().getApplication()))
                 .get(EarthquakesMapViewModel.class);
 
         viewModel.getEarthquakes().observe(this, new Observer<List<Earthquake>>() {

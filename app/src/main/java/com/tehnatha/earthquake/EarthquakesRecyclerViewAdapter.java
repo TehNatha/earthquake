@@ -60,13 +60,13 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
                 this.activity = new WeakReference<>((MainActivity) context);
         }
 
-        public void bindData(Earthquake data) {
+        public void bindData(final Earthquake data) {
             binding.setModel(data);
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (activity.get() != null)
-                        activity.get().openMap();
+                        activity.get().openMap(data);
                 }
             });
         }

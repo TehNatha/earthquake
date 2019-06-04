@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class EarthquakesViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 
     private EarthquakeRepository earthquakeRepository;
 
-    EarthquakesViewModelFactory(Application application) {
+    ViewModelFactory(Application application) {
         super(application);
         this.earthquakeRepository = EarthquakeRepository.getInstance(application);
     }
@@ -24,6 +24,8 @@ public class EarthquakesViewModelFactory extends ViewModelProvider.AndroidViewMo
             result = new EarthquakesListViewModel(earthquakeRepository);
         else if (modelClass == EarthquakesMapViewModel.class)
             result = new EarthquakesMapViewModel(earthquakeRepository);
+        else if (modelClass == MainViewModel.class)
+            result = new MainViewModel(earthquakeRepository);
 
         return (T) result;
     }
