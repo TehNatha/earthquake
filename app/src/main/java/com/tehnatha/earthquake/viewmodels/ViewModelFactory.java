@@ -1,4 +1,4 @@
-package com.tehnatha.earthquake;
+package com.tehnatha.earthquake.viewmodels;
 
 import android.app.Application;
 
@@ -6,11 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tehnatha.earthquake.datamodel.EarthquakeRepository;
+
 public class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 
     private EarthquakeRepository earthquakeRepository;
 
-    ViewModelFactory(Application application) {
+    public ViewModelFactory(Application application) {
         super(application);
         this.earthquakeRepository = EarthquakeRepository.getInstance(application);
     }

@@ -1,11 +1,14 @@
-package com.tehnatha.earthquake;
+package com.tehnatha.earthquake.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.tehnatha.earthquake.datamodel.Earthquake;
+import com.tehnatha.earthquake.datamodel.EarthquakeRepository;
+
 import java.util.List;
 
-class EarthquakesMapViewModel extends ViewModel {
+public class EarthquakesMapViewModel extends ViewModel {
 
     private LiveData<List<Earthquake>> earthquakes;
 

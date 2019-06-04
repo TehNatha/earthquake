@@ -1,9 +1,10 @@
-package com.tehnatha.earthquake;
+package com.tehnatha.earthquake.datamodel;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.MalformedJsonException;
+import com.tehnatha.earthquake.BuildConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;

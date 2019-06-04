@@ -1,5 +1,4 @@
-package com.tehnatha.earthquake;
-
+package com.tehnatha.earthquake.datamodel;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

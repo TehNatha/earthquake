@@ -1,7 +1,6 @@
 package com.tehnatha.earthquake;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tehnatha.earthquake.databinding.EarthquakeItemBinding;
+import com.tehnatha.earthquake.datamodel.Earthquake;
 
 import java.lang.ref.WeakReference;
 import java.util.List;

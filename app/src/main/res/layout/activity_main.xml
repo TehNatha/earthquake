@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.tehnatha.earthquake.MainViewModel" />
+            type="com.tehnatha.earthquake.viewmodels.MainViewModel" />
     </data>
     <LinearLayout
     android:id="@+id/mainView"

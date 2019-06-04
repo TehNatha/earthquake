@@ -11,6 +11,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tehnatha.earthquake.datamodel.Earthquake;
+import com.tehnatha.earthquake.viewmodels.EarthquakesMapViewModel;
+import com.tehnatha.earthquake.viewmodels.ViewModelFactory;
 
 import java.util.List;
 

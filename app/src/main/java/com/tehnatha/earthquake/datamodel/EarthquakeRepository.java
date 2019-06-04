@@ -1,4 +1,4 @@
-package com.tehnatha.earthquake;
+package com.tehnatha.earthquake.datamodel;
 
 import android.app.Application;
 import android.location.Address;

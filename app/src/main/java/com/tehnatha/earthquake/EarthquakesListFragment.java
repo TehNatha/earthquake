@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.tehnatha.earthquake.databinding.FragmentEarthquakesBinding;
+import com.tehnatha.earthquake.datamodel.Earthquake;
+import com.tehnatha.earthquake.viewmodels.EarthquakesListViewModel;
+import com.tehnatha.earthquake.viewmodels.ViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;

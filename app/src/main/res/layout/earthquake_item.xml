@@ -3,7 +3,7 @@
     <data>
         <variable
             name="model"
-            type="com.tehnatha.earthquake.Earthquake" />
+            type="com.tehnatha.earthquake.datamodel.Earthquake" />
     </data>
     <FrameLayout
         android:id="@+id/earthquakeItemOuterFrame"
