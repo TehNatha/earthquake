@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EarthquakesFragment extends Fragment {
+public class EarthquakesListFragment extends Fragment {
 
-    private EarthquakesViewModel viewModel;
+    private EarthquakesListViewModel viewModel;
     private EarthquakesRecyclerViewAdapter adapter;
 
     @Override
@@ -51,7 +51,7 @@ public class EarthquakesFragment extends Fragment {
         super.onAttach(context);
         viewModel = ViewModelProviders
                 .of(this, new EarthquakesViewModelFactory(getActivity().getApplication()))
-                .get(EarthquakesViewModel.class);
+                .get(EarthquakesListViewModel.class);
         adapter = new EarthquakesRecyclerViewAdapter(context, new ArrayList<Earthquake>());
     }
 

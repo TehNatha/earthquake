@@ -2,20 +2,29 @@ package com.tehnatha.earthquake;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class EarthquakesViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 
-    EarthquakeRepository earthquakeRepository;
+    private EarthquakeRepository earthquakeRepository;
 
-    public EarthquakesViewModelFactory(Application application) {
+    EarthquakesViewModelFactory(Application application) {
         super(application);
-        this.earthquakeRepository = new EarthquakeRepository(application);
+        this.earthquakeRepository = EarthquakeRepository.getInstance(application);
     }
 
+    @NonNull
     @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
-        return (T) new EarthquakesViewModel(earthquakeRepository);
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        ViewModel result = null;
+
+        if (modelClass == EarthquakesListViewModel.class)
+            result = new EarthquakesListViewModel(earthquakeRepository);
+        else if (modelClass == EarthquakesMapViewModel.class)
+            result = new EarthquakesMapViewModel(earthquakeRepository);
+
+        return (T) result;
     }
 }

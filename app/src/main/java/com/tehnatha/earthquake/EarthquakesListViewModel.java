@@ -5,11 +5,11 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-public class EarthquakesViewModel extends ViewModel {
+public class EarthquakesListViewModel extends ViewModel {
 
     private LiveData<List<Earthquake>> earthquakes;
 
-    public EarthquakesViewModel(EarthquakeRepository earthquakeRepository) {
+    public EarthquakesListViewModel(EarthquakeRepository earthquakeRepository) {
         earthquakes = earthquakeRepository.getAllEarthQuakes();
     }
 

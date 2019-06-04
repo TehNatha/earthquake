@@ -1,6 +1,7 @@
 package com.tehnatha.earthquake;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tehnatha.earthquake.databinding.EarthquakeItemBinding;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<EarthquakesRecyclerViewAdapter.EarthquakeHolder> {
@@ -27,7 +29,7 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
     public EarthquakeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         EarthquakeItemBinding binding = EarthquakeItemBinding.inflate(inflater);
         binding.earthquakeItemOuterFrame.setLayoutParams(parent.getLayoutParams());
-        return new EarthquakeHolder(binding.earthquakeItemOuterFrame, binding);
+        return new EarthquakeHolder(binding);
     }
 
     @Override
@@ -48,14 +50,25 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
     static class EarthquakeHolder extends RecyclerView.ViewHolder {
 
         EarthquakeItemBinding binding;
+        WeakReference<MainActivity> activity;
 
-        EarthquakeHolder(@NonNull View itemView, @NonNull EarthquakeItemBinding binding) {
-            super(itemView);
+        EarthquakeHolder(@NonNull EarthquakeItemBinding binding) {
+            super(binding.getRoot());
             this.binding = binding;
+            Context context = binding.getRoot().getContext();
+            if (context instanceof  MainActivity)
+                this.activity = new WeakReference<>((MainActivity) context);
         }
 
         public void bindData(Earthquake data) {
             binding.setModel(data);
+            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (activity.get() != null)
+                        activity.get().openMap();
+                }
+            });
         }
     }
 }

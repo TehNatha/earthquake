@@ -14,15 +14,26 @@ import java.util.Locale;
 import androidx.lifecycle.LiveData;
 
 public class EarthquakeRepository {
+    private static EarthquakeRepository INSTANCE;
+
     private EarthquakeDAO earthquakeDAO;
     private EarthquakeWebSource earthquakeWebSource;
     private Geocoder geocoder;
 
-    EarthquakeRepository(Application application) {
+    public static EarthquakeRepository getInstance(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
-        this.earthquakeDAO = db.earthquakeDAO();
-        this.earthquakeWebSource = new EarthquakeWebSource();
-        this.geocoder = new Geocoder(application, Locale.getDefault());
+        EarthquakeDAO earthquakeDAO = db.earthquakeDAO();
+        EarthquakeWebSource earthquakeWebSource = new EarthquakeWebSource();
+        Geocoder geocoder = new Geocoder(application, Locale.getDefault());
+        return INSTANCE == null
+                ? INSTANCE = new EarthquakeRepository(earthquakeDAO, earthquakeWebSource, geocoder)
+                : INSTANCE;
+    }
+
+    private EarthquakeRepository(EarthquakeDAO earthquakeDAO, EarthquakeWebSource earthquakeWebSource, Geocoder geocoder) {
+        this.earthquakeDAO = earthquakeDAO;
+        this.earthquakeWebSource = earthquakeWebSource;
+        this.geocoder = geocoder;
     }
 
     public LiveData<List<Earthquake>> getAllEarthQuakes() {
@@ -46,7 +57,8 @@ public class EarthquakeRepository {
                 Earthquake[] earthquakes = sources[0].getAll();
                 if (earthquakes.length > 0) {
                     for (Earthquake earthquake : earthquakes)
-                        lookupAndSetEarthquakeLocation(geocoder, earthquake);
+                        if (earthquake.getLocation() == null || earthquake.getLocation().isEmpty())
+                            lookupAndSetEarthquakeLocation(geocoder, earthquake);
                     dao.insertAll(earthquakes);
                 }
             }
