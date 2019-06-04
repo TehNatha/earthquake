@@ -2,6 +2,7 @@ package com.tehnatha.earthquake;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,14 +51,10 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
     static class EarthquakeHolder extends RecyclerView.ViewHolder {
 
         EarthquakeItemBinding binding;
-        WeakReference<MainActivity> activity;
 
         EarthquakeHolder(@NonNull EarthquakeItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            Context context = binding.getRoot().getContext();
-            if (context instanceof  MainActivity)
-                this.activity = new WeakReference<>((MainActivity) context);
         }
 
         public void bindData(final Earthquake data) {
@@ -65,8 +62,11 @@ public class EarthquakesRecyclerViewAdapter extends RecyclerView.Adapter<Earthqu
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (activity.get() != null)
-                        activity.get().openMap(data);
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("lat", data.getLat());
+                    intent.putExtra("lng", data.getLng());
+                    context.startActivity(intent);
                 }
             });
         }

@@ -1,5 +1,6 @@
 package com.tehnatha.earthquake;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,15 @@ public class MainActivity extends AppCompatActivity {
         binding.setViewmodel(viewModel);
     }
 
-    public void openMap(final Earthquake earthquake) {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        double lat = intent.getDoubleExtra("lat", 0);
+        double lng = intent.getDoubleExtra("lng", 0);
+        openMap(lat, lng);
+    }
+
+    public void openMap(final double lat, final double lng) {
         FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment fragment =  new EarthquakesMapFragment();
 
@@ -40,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(earthquake.getLat(), earthquake.getLng()), 6
+                        new LatLng(lat, lng), 6
                 ));
             }
         });
